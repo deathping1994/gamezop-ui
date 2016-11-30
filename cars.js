@@ -29,7 +29,20 @@ class Car {
 		make.innerHTML = this.make;
 		model.innerHTML = this.model;
 		year.innerHTML = this.year
-		del.innerHTML = `<button onclick=deleteCar(${this.id})>delete</button>`
+		del.innerHTML = `<button onclick=deleteCar(${this.id})>delete</button><button onclick=editCar(${this.id})>edit</button><button style='display:none' onclick=saveCar(${this.id})>saveCar</button>`
+    }
+
+    static fromRow(element){
+    	let year,id;
+    	let make = element.children[1].innerHTML;
+    	let model = element.children[2].innerHTML;
+    	try{
+    		id = parseInt(element.children[0].innerHTML);
+    		year = parseInt(element.children[3].innerHTML);
+    	} catch (err){
+    		alert(err);
+    	}
+    	return JSON.stringify({make,model,year,id})
     }
 }
 
@@ -89,6 +102,41 @@ function deleteCar(car_id) {
     }).then(function(response){
 		removeFromDom(car_id);
 		console.log("Delete Successfull !")	
+	}).catch(function(err) {
+		alert(err);
+	});
+	return false;
+}
+
+function editCar(car_id) {
+	row = document.getElementById(car_id);
+    for(let index in row.children){
+    	if(index>0){
+    		row.children[index].contentEditable='true'
+    	}
+    }
+    row.children[4].children[2].style='';
+    row.children[4].children[1].style='display:none';
+
+}
+
+function saveCar(car_id) {
+	fetch(`${baseUrl}/cars/${car_id}/`, {
+	headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: Car.fromRow(document.getElementById(car_id)),
+    method: "PATCH",
+    }).then(function(response){
+		row = document.getElementById(car_id);
+	    for(let index in row.children){
+	    	if(index>0){
+	    		row.children[index].contentEditable='false'
+	    	}
+	    }
+	    row.children[4].children[2].style='display:none';
+	    row.children[4].children[1].style='';	
 	}).catch(function(err) {
 		alert(err);
 	});
