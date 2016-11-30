@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>Gamzop UI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+</head>
+<body>
+<form id="add_car" class="w3-container w3-panel w3-padding-large" onsubmit="return addCar(event)">
+Model:<input type="text" placeholder="Ertiga" name="model"/>
+Make:<input type="text" placeholder="Honda" name="make"/>
+Year:<input type="number" placeholder="2014" name="year"/>
+<button type="submit">Add new Car</button>
+</form>
+<div class="w3-container">
+<input type="text" style="width: 100%" placeholder="Search by model, make or year" onkeyup="searchCars(this.value)" autocomplete="off">
+<table class="w3-table w3-padding-large w3-hoverable w3-bordered" id="cars" style="width: 100%">
+<thead>
+	<tr>
+		<th>id</th>
+		<th>make</th>
+		<th>model</th>
+		<th>year</th>
+		<th>Delete</th>
+	</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+<script type="text/javascript" src="cars.js"></script>
+</body>
+</html>
